@@ -1,0 +1,30 @@
+name: Pipeline de Integração Contínua
+
+# Quando este script deve rodar?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# O que ele deve fazer?
+jobs:
+  build-e-testes:
+    runs-on: ubuntu-latest # Cria um servidor Linux virtual gratuito na hora
+
+    steps:
+    - name: 1. Baixar o código do repositório
+      uses: actions/checkout@v3
+
+    - name: 2. Instalar e configurar o Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 3. Executar os testes automatizados
+      run: python -m unittest test_calculadora.py
+
+
+# Explicaçã: Este arquivo é a "receita de bolo" do nosso Build. 
+# Ele diz ao GitHub: "Toda vez que houver um Pull Request para a main, 
+# ligue um computador Linux (ubuntu-latest), baixe nosso código, instale o Python e rode o comando de teste".
